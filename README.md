@@ -26,16 +26,16 @@
     1.  Entry point of app is main() function, which is in the `bin/app_cli.dart`
     2.  `lib/app_cli.dart` is functionality of the app and imported by the `bin/app_cli.dart` file.
     3.  `pubspec.yaml` file contains app's metadata, packages the app depends on and which versions of those packages are required.
-    4.  `dart create` runs `dart pub get` which scans the generated pubspec file and downloads dependencies. If you add other dependencies to your pubspec file, then run `dart pub get` to download them.
+    4.  `dart create` runs `dart pub get` which scans the generated pubspec file and downloads dependencies. <br>If you add other dependencies to your pubspec file, then run `dart pub get` to download them.
 4.  Running "Hello World" app
     1. To run the app from command line, use the Dart VM by running `dart run` command in the app's top directory.
     2. `cd app-cli`
     3. `dart run`
 5. Compile for production
-   1. The steps above used the Dart VM (dart) to run the app. The Dart VM is optimized for fast, incremental compilation to provide instant feedback during development. Now that our small app is done, it's time to `AOT compile your Dart code to optimized native machine code`.
+   1. The steps above used the Dart VM (dart) to run the app. The Dart VM is optimized for fast, incremental compilation to <br> provide instant feedback during development. Now that our small app is done, it's time to <br> `AOT compile your Dart code to optimized native machine code`.
    2. `dart compile exe bin/app_cli.dart`
    3. for execute the app in terminal : `bin/app_cli.exe`
-   4. Compare Dart VM and compiled with AOT app speed.
+   4. Compare the speed of the execute app with Dart VM and compile with AOT 
       1. `time dart run` takes 0.808 seconds
       2. `time bin/app_cli.exe` takes 0.254 seconds.
       3. `compiled app` is `318% faster` than (`dart run ..`) using `Dart VM`
