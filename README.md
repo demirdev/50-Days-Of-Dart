@@ -97,6 +97,80 @@ Here is an example of documentation comments with references to other classes an
 
 In the class’s generated documentation, [feed] becomes a link to the docs for the feed method, and [Food] becomes a link to the docs for the Food class.
 
+### 2. [Variables](https://dart.dev/guides/language/language-tour#variables)
+
+    var name = 'Bob';
+
+Variables store references. 
+
+The type of the name variable is [type inferred](https://dart.dev/guides/language/effective-dart/design#types) to be String, but you can change that type by specifying it. If an object isn’t restricted to a single type, specify the Object type (or dynamic if necessary).
+
+    Object name = 'Bob';
+
+Another option is to explicitly declare the type that would be inferred:
+
+    String name = 'Bob';
+#### Default value
+Uninitialized variables that have a nullable type have an initial value of null. Even variables with numeric types are initially null, because numbers—like everything else in Dart—are objects.
+
+    int? lineCount;
+    assert(lineCount == null);
+
+`Production code ignored the assert() call. During development, on the other hand, assert(condition) throws an exception if condition is false.`
+
+#### Late variables
+Two use cases of late modifier.
+- Declaring a non-nullable variable that's initialized after its declaration.
+- Lazily initializing a variable.
+  
+    late String description;
+
+    void main(){
+        description = 'Sanliurfa';
+        print(description);
+    }
+
+When you mark a variablel as late but initialize it at its declaration, then the initializer runs the first time the variable is used. This lazy initialization is handy in couple of cases:
+- The variable might not be needed, and initializing it is costly.
+- You're initializing an instance variable, and its initializer needs access to this.
+    
+    // This is the program's only call to _readThermometer().
+    late String temperature = _readThermometer(); // Lazily initialized.
+
+#### Final and const
+If you never intend to change a variable, use `final` or `const`, either instead of var or in addition to a type. A final variable can be set only once; a const variable is a compile-time constant.
+
+    final name = 'Mehmet'; // Without a type annotation
+    final String nickname = 'demirdev';
+
+Use `const` for variables that you want to be compile-time constants. If the const variable is at the class level, mark it static const.
+
+    const bar = 10000000; // unit of pressure
+    const double atm = 1.01325 * bar; // Standadrd atmosphere
+
+Any variable can have a constant value.
+
+    var foo = const [];
+    final bar = const [];
+    const baz = []; // Equivalent to `const []`
+
+You can define constants that use type checks and casts(is and as), collection if, and spread operators (... and ...?):
+
+    const Object i = 3;
+    const list = [i as int];
+    const map = {if (i is int) i: 'int'};
+    const set = {if (list is List<int>) ...list};
+
+const and final object are `immutable`.
+
+### Printing to the console
+
+    print('Hello from dart'.runtimeType);
+
+
+
+
+
 
 
 
