@@ -206,7 +206,7 @@ which are useful for manipulating and masking flags in bit fields.
 
 Literal numbers are compile-time constants.
 
-### Booleans
+### 2. Booleans
 Only two objects have type bool: the boolean literals are true and false, which are both compile-time constants.
 
     fullName.isEmpty
@@ -218,7 +218,7 @@ Only two objects have type bool: the boolean literals are true and false, which 
     mybeNumber.isNaN
 
 
-### Strings
+### 3. Strings
 You can concatenate strings using adjacent string literals or the + operator;
 
     var s1 = 'abc'
