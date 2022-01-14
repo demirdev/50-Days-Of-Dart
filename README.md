@@ -67,9 +67,7 @@ A multi-line comment begins with `/*` and ends with `*/`. Everything between `/*
 ### Documentation comments
 Documentation comments are multi-line or single-line comments that begin with `///` or `/**`. Using `///` on consecutive lines has the same effect as a multi-line doc comment.
 
-Inside a documentation comment, the analyzer ignores all text unless it is enclosed in brackets. Using brackets, you can refer to classes, methods, fields, top-level variables, functions, and parameters. The names in brackets are resolved in the lexical scope of the documented program element.
-
-Here is an example of documentation comments with references to other classes and arguments:
+Using brackets, you can refer to classes, methods, fields, top-level variables, functions, and parameters. 
 
     /// A domesticated South American camelid (Lama glama).
     ///
@@ -167,10 +165,73 @@ const and final object are `immutable`.
 
     print('Hello from dart'.runtimeType);
 
+# Day 4
+## Suggested Subjects
+1. Number data types
+2. Boolean data type
+3. String data type
+## My Notes / Readings
+### 1. [Number data types](https://dart.dev/guides/language/language-tour#numbers)
+`int`
+
+    var x = 1;
+    var hex = 0xFFCC0000;
+    var exponent = 8e5;
+
+`double`
+
+    var y = 1.1;
+    var exponents = 1.42e5;
+
+Both `int` and `double` are subtypes of `num`.
+
+    num x = 1;  // x can have both int and double values
+    x += 2.5;
+
+Integer literals are automatically converted to doubles when necessary:
+
+    double z = 1; // Equivalent to double z = 1.0.
+
+Turn a string into a number, or vice verca:
+
+    int.parse('1');
+    double.parse('1.1');
+    1.toString();
+    3.1415.toStringAsFixed(2); // '3.14'
+
+The `int` type specifies the traditional bitwise shift(<<,>>,>>>),complement(~), and (&), or (|), and XOR ^ operators,  
+which are useful for manipulating and masking flags in bit fields.
+
+    // Examples in the number_data_types.dart
+
+Literal numbers are compile-time constants.
+
+### Booleans
+Only two objects have type bool: the boolean literals are true and false, which are both compile-time constants.
+
+    fullName.isEmpty
+
+    hitPoints <= 0
+
+    unicorn == null
+
+    mybeNumber.isNaN
 
 
+### Strings
+You can concatenate strings using adjacent string literals or the + operator;
 
+    var s1 = 'abc'
+             'def';
+    var s2 = 'a' + 'b';
 
+Multi-line string.
 
+    var s1 = '''
+        abc
+        def
+        ''';
 
+You can create a `raw` string by prefixing it with `r`:
 
+    var s = r'abc $ \n';
