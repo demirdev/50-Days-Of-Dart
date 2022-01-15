@@ -235,3 +235,166 @@ Multi-line string.
 You can create a `raw` string by prefixing it with `r`:
 
     var s = r'abc $ \n';
+
+# Day 5
+## Suggested Subjects
+1. Runes and Symbols
+2. Operators
+## My Notes / Readings
+### 1. [Runes](https://www.w3adda.com/dart-tutorial/dart-runes)
+
+In Dart, string is represented as sequence of Unicode UTF-16 characters. 
+If you want to use 32-bit Unicode characters within a string then 
+it must be represented using a special syntax. A rune is an integer representing a Unicode code point.
+If the hex digits are more or less than 4 digits, place the hex value in curly brackets {}.
+
+    var hearth = '\u2665';
+    var laugh = '\u{1f600}';
+    
+    print(hearth);
+    print(hearth.codeUnits); // 1-byte
+    
+    print(laugh);
+    print(laugh.codeUnits); // 2-bytes
+    
+    laugh.runes.forEach((rune) {
+    print(rune);
+    final _char = String.fromCharCode(rune);
+    print(_char);
+    });
+
+    // output
+    
+    ♥
+    [9829]
+    😀
+    [55357, 56832]
+    128512
+    😀
+
+### 2. Symbols
+    I dont understand.
+
+### 3. Operators
+
+    unary postfix       expr++  expr--  ()  []  ?[] .   ?.
+    unary prefix        -expr   !expr   ~expr ++expr --expr await expr
+
+    multiplicative      *   /   %   ~/
+    additive            +   -
+    shift               <<  >>  >>>
+
+    bitwise             &   |   ^
+    
+    relatıonal and type test    >=  <   <=  <   as  is  is!
+
+    equality            ==  !=
+
+    logical AND         &&
+    logical OR          ||
+
+    if null             ??
+    conditional         expr1 ? expr2 : expr3
+
+    cascade             ..  ?..
+
+    assignment          =   *=  /=  +=  -=  &=  ^=  etc.
+
+ #### Arithmetic operators
+    ...
+
+ #### Equality and relational operators
+    ...
+
+ #### Type test operators
+    as  Typecast
+    is  True if the object has the specified type
+    is! True if the object doesn't have the specified type
+
+    // Use the as operator to cast an object to particular type if and only if 
+    // you are sure that the object is of that type.
+    (employee as Person).firstName = 'Mehmet';
+
+    // If you aren't sure that the object is of type T, 
+    // then use is T to check the type before using the object.
+    if(employee is Person){
+        employee.firstName = 'Mehmet';
+    }
+
+#### Assignment operators
+    // Assign value to b if b is null; otherwise, b stays the same
+    b ??= value;
+
+Compound assignment operators such as  += combine an operation with an assignment.
+
+    =   *=  %=  >>>=    ^=
+    +=  /=  <<= &=  |=
+    -=  ~/= >>=
+
+Here's how compound assignment operators work
+
+    a op= b     =>  a = a op b
+    a += b      =>  a = a + b
+
+#### Logical Operators
+    !expr   inverts the folling expression
+    ||      logical OR
+    &&      logical AND
+
+    if(!done && (col == 0 || col == 3)){
+        // ....
+    }
+
+#### Bitwise and shift operators
+    ...
+
+#### Conditional expressions
+Dart has two operators that let you concisely evaluate 
+expressions that might otherwise require if-else statements.
+
+When you need to assign a value based on a boolean expression, 
+consider using ? and :.
+
+    var visiblity = isPublic ? 'public' : 'private';
+
+
+expr1 ?? expr2
+If expr1 is non-null, returns its value; otherwise, 
+evaluates and returns the value of expr2.
+
+If the boolean expression tests for null, consider using ??.
+
+    String playerName(String? name) => name ?? 'Guest';
+
+#### Cascade notation
+    ..  cascade 
+    ?.. null-shorting cascade
+
+    var paint = Paint()
+        ..color = Colors.black
+        ..strokeCap = StrokeCap.round;
+
+    querySelector('#confirm') // Get an object
+        ?..text='Confirm' // if not null cascade it.
+         ..classes.add('important');
+
+Be careful to construct your cascade on a function that returns an actual object. 
+For example, the following code fails:
+
+    var sb = StringBuffer();
+    sb.write('foo')
+    ..write('bar'); // Error: method 'write' isn't defined for 'void'.
+
+The sb.write() call returns void, and you can’t construct a cascade on void.
+
+Note: Strictly speaking, the “double dot” notation for cascades isn’t an operator. 
+It’s just part of the Dart syntax.
+
+#### Other operators
+    ()  Function application    Represents a function call
+    []  Subscript access        list[1]
+    ?[] Conditional Subscript access    list?[1]
+    .   Member access           foo.bar
+    ?.  Conditional Member access   foo?.bar
+
+
