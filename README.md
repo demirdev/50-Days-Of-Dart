@@ -397,4 +397,171 @@ It’s just part of the Dart syntax.
     .   Member access           foo.bar
     ?.  Conditional Member access   foo?.bar
 
+# Day 6
+## Suggested Subjects
+1. Null Safety
+## My Notes / Readings
+### 1. [Sound null safety](https://dart.dev/null-safety)
 
+When you opt into null safety, types in your code are non-nullable by default, meaning that variables can’t contain null unless you say they can. With null safety, your runtime null-dereference errors turn into edit-time analysis errors.
+
+    // none of these can ever be null.
+    var i = 42; // inferred to be a int.
+    String name = getFileName();
+    final b = Fob();
+
+To indicate that a variable might have the value null, just add ? to its type declaration:
+
+    int? aNullableInt = null;
+
+#### Null safety principles
+
+- Non-nullable by default. Unless you explicitly tell Dart that a variable can be null, 
+  it’s considered non-nullable. This default was chosen after research found that 
+  non-null was by far the most common choice in APIs.
+- Incrementally adoptable. You choose what to migrate to null safety, and when. 
+  You can migrate incrementally, mixing null-safe and non-null-safe code in the same project. 
+  We provide tools to help you with the migration.
+- Fully sound. Dart’s null safety is sound, which enables compiler optimizations. 
+  If the type system determines that something isn’t null, then that thing can never be null. 
+  Once you migrate your whole project and its dependencies to null safety, you reap the full benefits of
+  soundness — not only fewer bugs, but smaller binaries and faster execution.
+
+### 2. [Null safety codelab](https://dart.dev/codelabs/null-safety)
+
+#### Nullable and non-nullable types
+
+Exercise: Non-nullable types
+
+    int a = 5; // not nullable
+
+Exercise: Nullable types
+
+    int? b = null; // nullable
+
+Exercise: Nullable type parameters for generics
+
+    List<String> aListOfStrings = ['a','b','c'];
+    List<String>? aNullableListOfStrings;
+    List<String?> aListOfNullableStrings = ['a', null, 'b'];
+
+#### The null assertion operator (!)
+If you’re sure that an expression with a nullable type isn’t null, you can use a null assertion operator (!) 
+to make Dart treat it as non-nullable. By adding ! just after the expression, you tell Dart that 
+the value won’t be null, and that it’s safe to assign it to a non-nullable variable.
+
+    int? couldBeNullButIsnt = 1;
+    int a = couldBeNullButIsnt; 
+
+    List<int?> listThatCouldHoldNulls = [2, null, 4];
+    int? b = listThatCouldHoldNulls.first;
+
+    int? couldReturnNullButDoesnt() => -3;
+    int c = couldReturnNullButDoesnt()!.abs(); // absolute value
+
+#### Type promotion
+With sound null safety, Dart’s flow analysis has been extended to take nullability into account. 
+Nullable variables that can’t possibly contain null values are treated like non-nullable variables.
+This behavior is called type promotion.
+
+Exercise: Definite assignment
+
+    void main() {
+        String text;
+        
+        // if you comment this if-else block, the analyzer errors appear.
+        // if you uncomment this if-else block, the analyzer errors disappear.
+        if (DateTime.now().hour < 12) {
+        text = "It's morning! Let's make aloo paratha!";
+        } else {
+        text = "It's afternoon! Let's make biryani!";
+        }
+        
+        print(text);
+        print(text.length);
+    }
+
+
+Exercise: Null checking
+
+    if(a == null) {}
+
+#### The late keyword
+
+Sometimes variables — fields in a class, or top-level variables — should be non-nullable, 
+but they can’t be assigned a value immediately. For cases like that, use the late keyword.
+
+When you put `late` in front of a variable declaration, that tells Dart the following:
+
+Don’t assign that variable a value yet.
+You will assign it a value later.
+You’ll make sure that the variable has a value before the variable is used.
+
+If you declare a variable `late` and the variable is read before it’s assigned a value, an error is thrown.
+
+Exercise: Using late
+
+    class Meal {
+        late String _description;
+        
+        set description(String desc) {
+        _description = 'Meal description: $desc';
+        }
+        
+        String get description => _description;
+    }
+    
+    void main() {
+        final myMeal = Meal();
+        myMeal.description = 'Feijoada!';
+        print(myMeal.description);
+    }
+
+Exercise: Late circular references
+
+The late keyword is helpful for tricky patterns like circular references. 
+The following code has two objects that need to maintain non-nullable references to each other. 
+Try using the late keyword to fix this code.
+
+Note that you don’t need to remove final. 
+You can create late final variables: you set their values once, and after that they’re read-only.
+
+    class Team {
+        late final Coach coach;
+    }
+    
+    class Coach {
+        late final Team team;
+    }
+    
+    void main() {
+        final myTeam = Team();
+        final myCoach = Coach();
+        myTeam.coach = myCoach;
+        myCoach.team = myTeam;
+        
+        print('All done!');
+    }
+
+Exercise: Late and lazy
+
+    int _computeValue() {
+        print('In _computeValue...');
+        return 3;
+    }
+    
+    class CachedValueProvider {
+        late final _cache = _computeValue(); // if you use late keyword, _computeValue() calls when _cache proprty userd.
+                                                // if dont use late keyword, _computeValue() calls when CachedValueProvider() called.
+        int get value => _cache;
+    }
+    
+    void main() {
+        print('Calling constructor...');
+        var provider = CachedValueProvider();
+        print('Getting value...');
+        print('The value is ${provider.value}!');
+    }
+
+Fun fact: After you add late to the declaration of _cache, if you move the _computeValue function into the CachedValueProvider class the code still works!
+Initialization expressions for late fields can use instance methods in their initializers.
